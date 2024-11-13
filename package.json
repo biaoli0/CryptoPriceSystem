@@ -1,0 +1,38 @@
+{
+  "name": "crypto-current-price-system",
+  "version": "0.1.0",
+  "packageManager": "yarn@3.6.4",
+  "type": "module",
+  "devDependencies": {
+    "@eslint/js": "^9.14.0",
+    "@types/aws-lambda": "^8.10.145",
+    "@types/jest": "^29.5.14",
+    "@types/nodemailer": "^6.4.16",
+    "esbuild": "^0.24.0",
+    "eslint": "^9.14.0",
+    "globals": "^15.12.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.7",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.13.0"
+  },
+  "scripts": {
+    "build": "esbuild src/fetchCryptoCurrentPrice.ts --bundle --platform=node --target=node20 --outfile=dist/fetchCryptoCurrentPrice.js",
+    "package": "cd dist && zip function.zip fetchCryptoCurrentPrice.js && cd ..",
+    "deploy": "npm run build && npm run package && aws lambda update-function-code --function-name fetchCryptoCurrentPrice --zip-file fileb://dist/function.zip",
+    "update-handler": "aws lambda update-function-configuration --function-name fetchCryptoCurrentPrice --handler index.handler --runtime nodejs20.x",
+    "create-lambda": "aws lambda create-function --function-name fetchCryptoCurrentPrice --runtime nodejs20.x --role arn:aws:iam::620833996780:role/lambda-role --handler index.handler --zip-file fileb://dist/function.zip",
+    "dev": "nodemon src/testAPI",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.687.0",
+    "@aws-sdk/client-ses": "^3.687.0",
+    "axios": "^1.7.7",
+    "nodemailer": "^6.9.16",
+    "yup": "^1.4.0"
+  }
+}

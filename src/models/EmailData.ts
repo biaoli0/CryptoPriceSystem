@@ -1,0 +1,1 @@
+export type EmailData = { message: string, subject: string };

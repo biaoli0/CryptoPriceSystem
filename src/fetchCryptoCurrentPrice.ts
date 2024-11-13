@@ -6,6 +6,8 @@ import { fetchSecretKey } from './utils/fetchSecretKey';
 import { coinDataMapper } from './mappers/coinDataMapper';
 import { generateEmailMessageForPriceRequest } from './utils/email/generateEmailMessageForPriceRequest';
 import { sendEmail } from './handlers/Email';
+import { toSearchRecordMapper } from './mappers/toSearchRecordMapper';
+import { storeSearchRecord } from './utils/storeSearchRecord';
 
 const baseURL = 'https://api.coingecko.com/api/v3/';
 const secretName = "prod/coingecko";
@@ -35,7 +37,7 @@ export const handler: Handler = async (event: APIGatewayEvent) => {
     const currentPriceData = coinDataMapper(priceResponse.data, coinDataResponse.data);
     const emailData = generateEmailMessageForPriceRequest(currentPriceData);
     await sendEmail(emailData, sendTo);
-
+    await storeSearchRecord(toSearchRecordMapper(currentPriceData, sendTo));
     return api.responseToLambda(`Email successfully sent to ${sendTo}`);
 };
 

@@ -22,13 +22,12 @@
     "build": "esbuild src/fetchCryptoCurrentPrice.ts --bundle --platform=node --target=node20 --outfile=dist/fetchCryptoCurrentPrice.js",
     "package": "cd dist && zip function.zip fetchCryptoCurrentPrice.js && cd ..",
     "deploy": "npm run build && npm run package && aws lambda update-function-code --function-name fetchCryptoCurrentPrice --zip-file fileb://dist/function.zip",
-    "update-handler": "aws lambda update-function-configuration --function-name fetchCryptoCurrentPrice --handler index.handler --runtime nodejs20.x",
     "create-lambda": "aws lambda create-function --function-name fetchCryptoCurrentPrice --runtime nodejs20.x --role arn:aws:iam::620833996780:role/lambda-role --handler index.handler --zip-file fileb://dist/function.zip",
-    "dev": "nodemon src/testAPI",
     "test": "jest",
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.687.0",
     "@aws-sdk/client-secrets-manager": "^3.687.0",
     "@aws-sdk/client-ses": "^3.687.0",
     "axios": "^1.7.7",

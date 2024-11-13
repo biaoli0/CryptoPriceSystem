@@ -12,7 +12,7 @@ As per your requested on ${localDateTime}, the price of ${data.name}(id: ${data.
 
 Best regards
 Crypto Price System`;
-    const subject = `Update: Current ${data.name.toUpperCase} Price`;
+    const subject = `Update: Current ${data.name}(id: ${data.id}) Price`;
 
     return { message, subject };
 }

@@ -2,10 +2,11 @@ import {
     SecretsManagerClient,
     GetSecretValueCommand,
 } from "@aws-sdk/client-secrets-manager";
+import { REGION } from "../constants";
 
 export const fetchSecretKey = async (secretName: string) => {
     const client = new SecretsManagerClient({
-        region: "ap-southeast-2",
+        region: REGION,
     });
 
     try {

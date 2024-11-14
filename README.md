@@ -69,8 +69,9 @@ Here is the Demo URL: https://zmo4wwe92d.execute-api.ap-southeast-2.amazonaws.co
     - `:email`: Email that used to query crypto price.
 
 ### 👍 Tips
+1. Gmail has a more strict policy on reciving SES email as Demo uses email identity instead of domain. Outlook works perfectly fine with Demo.
 
-You may obtain the coin id via several ways:
+2. You may obtain the coin id via several ways:
 
 - refers to respective coin page and find 'api id'
 - refers to google sheets here [https://docs.google.com/spreadsheets/d/1wTTuxXt8n9q7C4NDXqQpI3wpKu1_5bGVmP9Xz0XGSyU/edit?usp=sharing]. Reference: [link from CoinGecko](https://docs.coingecko.com/v3.0.1/reference/simple-price)

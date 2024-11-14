@@ -1,6 +1,4 @@
-# This is a basic workflow to help you get started with Actions
-name: Deploy
-# Controls when the action will run. Invokes the workflow on push events but only for the main branch
+name: Deploy Lambda functions
 on:
   push:
     branches: [ main ]
@@ -8,14 +6,15 @@ on:
     branches: [ main ]
 
 env:
-  AWS_REGION : ap-southeast-2 #Change to reflect your Region
+  AWS_REGION : ap-southeast-2
 
 # Permission can be added at job level or workflow level    
 permissions:
       id-token: write   # This is required for requesting the JWT
       contents: read    # This is required for actions/checkout
 jobs:
-  AssumeRoleAndCallIdentity:
+  build_and_deploy:
+    name: Build and deploy
     runs-on: ubuntu-latest
     steps:
       - name: Git clone the repository
@@ -26,7 +25,12 @@ jobs:
           role-to-assume: arn:aws:iam::620833996780:role/GHA_CICD_Role
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ env.AWS_REGION }}
-      # Hello from AWS: WhoAmI
-      - name: Sts GetCallerIdentity
-        run: |
-          aws sts get-caller-identity
+      - name: install node and yarn
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: yarn
+      - run: yarn
+      - run: yarn build-and-deploy:fetchCryptoCurrentPrice
+      - run: yarn build-and-deploy:fetchSearchHistory
+      - run: yarn build-and-deploy:addEmailToSESIdentities

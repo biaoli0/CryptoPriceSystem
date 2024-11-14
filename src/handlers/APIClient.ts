@@ -40,7 +40,6 @@ export class APIClient {
         try {
             const url = new URL(`${this.baseURL}${endpoint}`);
             console.info('url', url.toString());
-            console.info('this.config', JSON.stringify(this.config));
             const response = await axios.get(url.toString(), {
                 ...this.config
             });

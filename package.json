@@ -19,10 +19,11 @@
     "typescript-eslint": "^8.13.0"
   },
   "scripts": {
-    "build": "esbuild src/fetchCryptoCurrentPrice.ts --bundle --platform=node --target=node20 --outfile=dist/fetchCryptoCurrentPrice.js",
-    "package": "cd dist && zip function.zip fetchCryptoCurrentPrice.js && cd ..",
-    "deploy": "npm run build && npm run package && aws lambda update-function-code --function-name fetchCryptoCurrentPrice --zip-file fileb://dist/function.zip",
-    "create-lambda": "aws lambda create-function --function-name fetchCryptoCurrentPrice --runtime nodejs20.x --role arn:aws:iam::620833996780:role/lambda-role --handler index.handler --zip-file fileb://dist/function.zip",
+    "build": "./scripts/build.sh",
+    "deploy": "./scripts/deploy-lambda.sh",
+    "build-and-deploy": "sh -c './scripts/build.sh \"$0\" && ./scripts/deploy-lambda.sh \"$0\"'",
+    "build-and-deploy:fetchCryptoCurrentPrice": "npm run build-and-deploy fetchCryptoCurrentPrice",
+    "create-lambda": "./scripts/create-lambda.sh fetchSearchRecords",
     "test": "jest",
     "test:watch": "jest --watch"
   },

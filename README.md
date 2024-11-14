@@ -10,6 +10,28 @@ This microservice uses technologies that have stood the test of time.
 - [TypeScript](https://www.typescriptlang.org/)
 - [NodeJS](https://docs.nestjs.com/)
 
+### Architecture diagram
+
+```mermaid
+flowchart TB
+    subgraph "Microservice 1: Email Crypto Price"
+        A[API Gateway] --> B[Lambda - Price Fetcher]
+        B --> C[CoinGecko API]
+        B --> D[(DynamoDB - Search History)]
+        B --> F[AWS SES]
+    end
+
+    subgraph "Microservice 2: Search History"
+        G[API Gateway] --> H[Lambda - History Retriever]
+        H --> D
+    end
+
+    subgraph "CI/CD Pipeline"
+        I[GitHub Repository] --> J[GitHub Actions]
+        J --> K[Lambda]
+    end
+```
+
 ### Local development commands
 
 ```bash

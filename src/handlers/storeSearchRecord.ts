@@ -1,27 +1,11 @@
 import { DynamoDBClient, PutItemCommand } from '@aws-sdk/client-dynamodb';
-import { SearchRecord } from "../models/SearchRecord";
+import { SearchRecordDTO } from "../models/SearchRecordDTO";
 import { REGION, TABLE_NAME } from '../constants';
 
-export const storeSearchRecord = async (record: SearchRecord): Promise<void> => {
+export const storeSearchRecord = async (item: SearchRecordDTO): Promise<void> => {
     const input = {
         TableName: TABLE_NAME,
-        Item: {
-            price: {
-                N: record.price.toString()
-            },
-            timestamp: {
-                N: record.timestamp.toString()
-            },
-            userEmail: {
-                S: record.userEmail
-            },
-            coinId: {
-                S: record.coinId
-            },
-            coinData: {
-                S: JSON.stringify(record.coinData)
-            },
-        }
+        Item: item
     };
     const dynamoDb = new DynamoDBClient({ region: REGION });
 

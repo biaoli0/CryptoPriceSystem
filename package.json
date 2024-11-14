@@ -23,7 +23,8 @@
     "deploy": "./scripts/deploy-lambda.sh",
     "build-and-deploy": "sh -c './scripts/build.sh \"$0\" && ./scripts/deploy-lambda.sh \"$0\"'",
     "build-and-deploy:fetchCryptoCurrentPrice": "npm run build-and-deploy fetchCryptoCurrentPrice",
-    "create-lambda": "./scripts/create-lambda.sh fetchSearchRecords",
+    "build-and-deploy:fetchSearchHistory": "npm run build-and-deploy fetchSearchHistory",
+    "create-lambda": "./scripts/create-lambda.sh",
     "test": "jest",
     "test:watch": "jest --watch"
   },

@@ -1,8 +1,9 @@
 import { DynamoDBClient, QueryCommand, QueryCommandInput } from '@aws-sdk/client-dynamodb';
 import { REGION, TABLE_NAME } from '../constants';
-import { SearchRecord } from '../models/SearchRecord';
+import { toSearchRecordsMapper } from '../mappers/toSearchRecordMapper';
+import { CoinCurrentPriceData } from '../models/CoinCurrentPriceData';
 
-export const fetchSearchRecords = async (userEmail: string): Promise<SearchRecord[]> => {
+export const fetchSearchRecordsFromDB = async (userEmail: string): Promise<CoinCurrentPriceData[]> => {
     const dynamoDb = new DynamoDBClient({ region: REGION });
 
     const input: QueryCommandInput = {
@@ -10,7 +11,9 @@ export const fetchSearchRecords = async (userEmail: string): Promise<SearchRecor
         KeyConditionExpression: 'userEmail = :userEmail',
         ExpressionAttributeValues: {
             ':userEmail': { S: userEmail }
-        }
+        },
+        ScanIndexForward: false,
+        Select: 'ALL_ATTRIBUTES',
     };
 
     try {
@@ -20,18 +23,11 @@ export const fetchSearchRecords = async (userEmail: string): Promise<SearchRecor
         if (!response.Items || response.Items.length === 0) {
             return [];
         }
+        const searchRecords = toSearchRecordsMapper(response.Items);
 
-        // Transform DynamoDB items into SearchRecord objects
-        const records: SearchRecord[] = response.Items.map(item => ({
-            userEmail: item.userEmail.S!,
-            coinId: item.coinId.S!,
-            price: Number(item.price.N),
-            timestamp: Number(item.timestamp.N),
-            coinData: JSON.parse(item.coinData.S!)
-        }));
-
-        console.info(`Successfully fetched ${records.length} records for user: ${userEmail}`);
-        return records;
+        console.info(`Successfully fetched ${searchRecords.length} records for user: ${userEmail}`);
+        console.info(`Records: ${JSON.stringify(searchRecords)}`);
+        return searchRecords;
 
     } catch (error) {
         console.error('Error fetching search records:', error);

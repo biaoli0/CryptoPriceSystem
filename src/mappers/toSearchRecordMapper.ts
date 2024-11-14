@@ -1,15 +1,12 @@
+import { AttributeValue } from "@aws-sdk/client-dynamodb";
 import { CoinCurrentPriceData } from "../models/CoinCurrentPriceData";
-import { SearchRecord } from "../models/SearchRecord";
 
-export const toSearchRecordMapper = (coinData: CoinCurrentPriceData, userEmail: string): SearchRecord => {
-    return {
-        price: coinData.price,
-        timestamp: coinData.date.getTime(),
-        currency: coinData.currency,
-        userEmail,
-        coinId: coinData.id,
-        coinData: {
-            name: coinData.name,
-        }
-    }
+export const toSearchRecordsMapper = (items: Record<string, AttributeValue>[]): CoinCurrentPriceData[] => {
+    return items.map(item => ({
+        date: new Date(Number(item.timestamp.N)),
+        price: Number(item.price.N),
+        currency: 'aud',
+        id: item.coinId.S!,
+        name: JSON.parse(item.coinData.S!).name
+    }));
 }

@@ -31,7 +31,7 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: yarn
-      - run: yarn
+      - run: yarn install --frozen-lockfile
       - run: yarn build-and-deploy:fetchCryptoCurrentPrice
       - run: yarn build-and-deploy:fetchSearchHistory
       - run: yarn build-and-deploy:addEmailToSESIdentities

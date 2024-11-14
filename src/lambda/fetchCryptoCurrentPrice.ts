@@ -9,6 +9,7 @@ import { sendEmail } from '../handlers/sendEmail';
 import { toSearchRecordDTOMapper } from '../mappers/toSearchRecordDTOMapper';
 import { storeSearchRecord } from '../handlers/storeSearchRecord';
 import { responseToLambda } from '../utils/responseToLambda';
+import { checkSESIdentityVerificationStatus } from '../handlers/checkSESIdentityVerificationStatus';
 
 const baseURL = 'https://api.coingecko.com/api/v3/';
 const secretName = "prod/coingecko";
@@ -16,7 +17,7 @@ const COIN_GECKO_API_KEY = 'COIN_GECKO_API_KEY';
 
 const queryParamsSchema = object({
     coin: string().required(),
-    email: string().required()
+    email: string().email().required()
 });
 
 export const handler: Handler = async (event: APIGatewayEvent) => {
@@ -27,7 +28,12 @@ export const handler: Handler = async (event: APIGatewayEvent) => {
     const apiKey = apiKeyObject[COIN_GECKO_API_KEY];
 
     const queryParams = await queryParamsSchema.validate(event.queryStringParameters);
+
     const { coin, email } = queryParams;
+    const status = await checkSESIdentityVerificationStatus(email);
+    if (status !== 'Success') {
+        return responseToLambda(JSON.stringify({ message: `Email verification is not successful, status: ${status}` }));
+    }
 
     const api = new APIClient({
         baseURL, headers: { 'x-cg-demo-api-key': apiKey }
@@ -42,7 +48,7 @@ export const handler: Handler = async (event: APIGatewayEvent) => {
     const newSearchRecordDTO = toSearchRecordDTOMapper(currentPriceData, email);
     console.info(`Storing new search record: ${JSON.stringify(newSearchRecordDTO)}`);
     await storeSearchRecord(newSearchRecordDTO);
-    return responseToLambda(`Email successfully sent to ${email}`);
+    return responseToLambda(JSON.stringify({ message: `Email successfully sent to ${email}` }));
 };
 
 

@@ -24,6 +24,7 @@
     "build-and-deploy": "sh -c './scripts/build.sh \"$0\" && ./scripts/deploy-lambda.sh \"$0\"'",
     "build-and-deploy:fetchCryptoCurrentPrice": "npm run build-and-deploy fetchCryptoCurrentPrice",
     "build-and-deploy:fetchSearchHistory": "npm run build-and-deploy fetchSearchHistory",
+    "build-and-deploy:addEmailToSESIdentities": "npm run build-and-deploy addEmailToSESIdentities",
     "create-lambda": "./scripts/create-lambda.sh",
     "test": "jest",
     "test:watch": "jest --watch"
@@ -31,7 +32,7 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.687.0",
     "@aws-sdk/client-secrets-manager": "^3.687.0",
-    "@aws-sdk/client-ses": "^3.687.0",
+    "@aws-sdk/client-ses": "^3.691.0",
     "axios": "^1.7.7",
     "nodemailer": "^6.9.16",
     "yup": "^1.4.0"

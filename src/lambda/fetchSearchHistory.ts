@@ -6,7 +6,7 @@ import { object, string } from 'yup';
 import { toLocalDateTime } from '../utils/toLocalDateTime';
 
 const queryParamsSchema = object({
-    email: string().required()
+    email: string().email().required()
 });
 
 export const handler: Handler = async (event: APIGatewayEvent) => {

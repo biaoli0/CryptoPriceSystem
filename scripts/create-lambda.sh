@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# Default values
-DEFAULT_RUNTIME="nodejs20.x"
-DEFAULT_HANDLER="index.handler"
-DEFAULT_ROLE="arn:aws:iam::620833996780:role/lambda-execution-role"
-
 # Check if function name is provided
 if [ $# -eq 0 ]; then
     echo "Error: Please provide the function name"
@@ -15,8 +10,15 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
-# Assign parameters
 FUNCTION_NAME=$1
+
+# Default values
+DEFAULT_RUNTIME="nodejs20.x"
+DEFAULT_HANDLER="$FUNCTION_NAME.handler"
+DEFAULT_ROLE="arn:aws:iam::620833996780:role/lambda-execution-role"
+
+
+# Assign parameters
 RUNTIME=${2:-$DEFAULT_RUNTIME}
 HANDLER=${3:-$DEFAULT_HANDLER}
 ROLE=${4:-$DEFAULT_ROLE}
@@ -34,6 +36,7 @@ aws lambda create-function \
     --runtime "$RUNTIME" \
     --role "$ROLE" \
     --handler "$HANDLER" \
+    --zip-file "fileb://dist/$FUNCTION_NAME.zip"
 
 if [ $? -eq 0 ]; then
     echo "Lambda function created successfully!"

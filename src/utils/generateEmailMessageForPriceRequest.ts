@@ -1,10 +1,8 @@
 import { CoinCurrentPriceData } from "../models/CoinCurrentPriceData";
+import { toLocalDateTime } from "./toLocalDateTime";
 
 export const generateEmailMessageForPriceRequest = (data: CoinCurrentPriceData) => {
-    const localDateTime = data.date.toLocaleString('en-AU', {
-        timeZone: 'Australia/Sydney',
-        timeStyle: 'long'
-    });
+    const localDateTime = toLocalDateTime(data.date);
 
     const message = `
 Hi,

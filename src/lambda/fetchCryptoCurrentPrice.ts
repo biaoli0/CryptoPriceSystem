@@ -41,7 +41,7 @@ export const handler: Handler = async (event: APIGatewayEvent) => {
     const newSearchRecord = toSearchRecordMapper(currentPriceData, sendTo);
     console.info(`Storing new search record: ${JSON.stringify(newSearchRecord)}`);
     await storeSearchRecord(newSearchRecord);
-    return api.responseToLambda(`Email successfully sent to ${sendTo}`);
+    return responseToLambda(`Email successfully sent to ${sendTo}`);
 };
 
 

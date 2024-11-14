@@ -23,19 +23,6 @@ export class APIClient {
         };
     }
 
-    async responseToLambda(message: string) {
-        const headers = {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-        };
-
-        return {
-            statusCode: 200,
-            body: message, // Lambda response body must be a string
-            headers,
-        };
-    }
-
     async get(endpoint: string) {
         try {
             const url = new URL(`${this.baseURL}${endpoint}`);

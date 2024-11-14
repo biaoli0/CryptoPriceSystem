@@ -1,0 +1,101 @@
+{
+	"info": {
+		"_postman_id": "2f1cad44-0e67-4e7d-ab7e-01811b0761c7",
+		"name": "/",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36961816"
+	},
+	"item": [
+		{
+			"name": "search-history",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://zmo4wwe92d.execute-api.ap-southeast-2.amazonaws.com/dev/search-history?email=",
+					"protocol": "https",
+					"host": [
+						"zmo4wwe92d",
+						"execute-api",
+						"ap-southeast-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"search-history"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "current-price",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://zmo4wwe92d.execute-api.ap-southeast-2.amazonaws.com/dev/current-price?coin=bitcoin&email=",
+					"protocol": "https",
+					"host": [
+						"zmo4wwe92d",
+						"execute-api",
+						"ap-southeast-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"current-price"
+					],
+					"query": [
+						{
+							"key": "coin",
+							"value": "bitcoin"
+						},
+						{
+							"key": "email",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "subscribe",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://zmo4wwe92d.execute-api.ap-southeast-2.amazonaws.com/dev/subscribe?email=",
+					"protocol": "https",
+					"host": [
+						"zmo4wwe92d",
+						"execute-api",
+						"ap-southeast-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"subscribe"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

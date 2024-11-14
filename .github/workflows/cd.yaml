@@ -25,6 +25,7 @@ jobs:
           role-to-assume: arn:aws:iam::620833996780:role/cps-gha-role
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ env.AWS_REGION }}
+      - run: corepack enable
       - name: install node and yarn
         uses: actions/setup-node@v4
         with:

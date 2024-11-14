@@ -2,12 +2,12 @@
 import { APIGatewayEvent, Handler } from 'aws-lambda';
 import { APIClient } from "../handlers/APIClient";
 import { object, string } from "yup";
-import { fetchSecretKey } from '../utils/fetchSecretKey';
+import { fetchSecretKey } from '../handlers/fetchSecretKey';
 import { coinDataMapper } from '../mappers/coinDataMapper';
-import { generateEmailMessageForPriceRequest } from '../utils/email/generateEmailMessageForPriceRequest';
-import { sendEmail } from '../handlers/Email';
+import { generateEmailMessageForPriceRequest } from '../utils/generateEmailMessageForPriceRequest';
+import { sendEmail } from '../handlers/sendEmail';
 import { toSearchRecordMapper } from '../mappers/toSearchRecordMapper';
-import { storeSearchRecord } from '../utils/storeSearchRecord';
+import { storeSearchRecord } from '../handlers/storeSearchRecord';
 
 const baseURL = 'https://api.coingecko.com/api/v3/';
 const secretName = "prod/coingecko";

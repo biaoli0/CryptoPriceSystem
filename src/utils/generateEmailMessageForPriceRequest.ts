@@ -1,4 +1,4 @@
-import { CoinCurrentPriceData } from "../../models/CoinCurrentPriceData";
+import { CoinCurrentPriceData } from "../models/CoinCurrentPriceData";
 
 export const generateEmailMessageForPriceRequest = (data: CoinCurrentPriceData) => {
     const localDateTime = data.date.toLocaleString('en-AU', {

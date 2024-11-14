@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 import { EmailData } from '../models/EmailData';
-import { fetchSecretKey } from '../utils/fetchSecretKey';
+import { fetchSecretKey } from './fetchSecretKey';
 
 const secretName = 'prod/email-secrets';
 

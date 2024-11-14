@@ -14,16 +14,14 @@ This microservice uses technologies that have stood the test of time.
 
 ```mermaid
 flowchart TB
-    subgraph "Microservice 1: Email Crypto Price"
-        A[API Gateway] --> B[Lambda - Price Fetcher]
+    subgraph "Microservice"
+        A[API Gateway] --GET: /current-price/--> B[Lambda - Price Fetcher]
         B --> C[CoinGecko API]
         B --> D[(DynamoDB - Search History)]
         B --> F[AWS SES]
-    end
-
-    subgraph "Microservice 2: Search History"
-        G[API Gateway] --> H[Lambda - History Retriever]
+        A[API Gateway] --GET: /search-history/--> H[Lambda - History Retriever]
         H --> D
+        A[API Gateway] --GET: /subscribe/--> L[Lambda - Email Subscribe] --> F[AWS SES]
     end
 
     subgraph "CI/CD Pipeline"

@@ -31,7 +31,7 @@ yarn build-and-deploy:fetchCryptoCurrentPrice
 
 ## API
 
-Here is the DEMO URL: https://zmo4wwe92d.execute-api.ap-southeast-2.amazonaws.com/dev/
+Here is the Demo URL: https://zmo4wwe92d.execute-api.ap-southeast-2.amazonaws.com/dev/
 
 - `GET /subscribe?email=:email`: Add email subscription. DEMO API is under development mode. Any new email needs to sign up in order to work with the rest of the endpoints.
   - Query parameters:
@@ -53,4 +53,4 @@ You may obtain the coin id via several ways:
 - refers to respective coin page and find 'api id'
 - refers to google sheets here [https://docs.google.com/spreadsheets/d/1wTTuxXt8n9q7C4NDXqQpI3wpKu1_5bGVmP9Xz0XGSyU/edit?usp=sharing]. Reference: [link from CoinGecko](https://docs.coingecko.com/v3.0.1/reference/simple-price)
 
-Alternatively, you can use postman_collection.json.
+Alternatively, you can use [postman_collection.json](https://github.com/biaoli0/CryptoPriceSystem#:~:text=33%20minutes%20ago-,postman_collection.json,-Add%20documentation) for the Demo API call.

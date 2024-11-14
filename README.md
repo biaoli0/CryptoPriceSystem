@@ -27,8 +27,8 @@ flowchart TB
     end
 
     subgraph "CI/CD Pipeline"
-        I[GitHub Repository] --> J[GitHub Actions]
-        J --> K[Lambda]
+        I[GitHub Repository] ---> J[GitHub Actions]
+        J --|openid connect|--> K[Lambda]
     end
 ```
 

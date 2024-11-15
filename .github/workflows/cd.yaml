@@ -1,0 +1,40 @@
+name: Deploy Lambda functions
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  AWS_REGION : ap-southeast-2
+
+# Permission can be added at job level or workflow level    
+permissions:
+      id-token: write   # This is required for requesting the JWT
+      contents: read    # This is required for actions/checkout
+jobs:
+  build_and_deploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v3
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: arn:aws:iam::620833996780:role/cps-gha-role
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ env.AWS_REGION }}
+      - run: corepack enable
+      - name: install node and yarn
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: yarn
+      - run: yarn --version
+      - run: node -v
+      - run: npm -v
+      - run: yarn install
+      - run: yarn build-and-deploy:fetchCryptoCurrentPrice
+      - run: yarn build-and-deploy:fetchSearchHistory
+      - run: yarn build-and-deploy:addEmailToSESIdentities

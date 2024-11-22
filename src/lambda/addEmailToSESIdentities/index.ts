@@ -1,5 +1,5 @@
 
-import { APIGatewayEvent, Handler } from 'aws-lambda';
+import { APIGatewayEvent } from 'aws-lambda';
 import { SESClient, VerifyEmailIdentityCommand } from "@aws-sdk/client-ses";
 import { object, string } from 'yup';
 
@@ -7,7 +7,7 @@ const queryParamsSchema = object({
     email: string().email().required()
 });
 
-export const handler: Handler = async (event: APIGatewayEvent) => {
+exports.handler = async (event: APIGatewayEvent) => {
     try {
         const { email } = await queryParamsSchema.validate(event.queryStringParameters);
         const input = {

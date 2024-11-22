@@ -1,15 +1,15 @@
 
-import { APIGatewayEvent, Handler } from 'aws-lambda';
-import { APIClient } from "../handlers/APIClient";
+import { APIGatewayEvent } from 'aws-lambda';
+import { APIClient } from "../../handlers/APIClient";
 import { object, string } from "yup";
-import { fetchSecretKey } from '../handlers/fetchSecretKey';
-import { coinDataMapper } from '../mappers/coinDataMapper';
-import { generateEmailMessageForPriceRequest } from '../utils/generateEmailMessageForPriceRequest';
-import { sendEmail } from '../handlers/sendEmail';
-import { toSearchRecordDTOMapper } from '../mappers/toSearchRecordDTOMapper';
-import { storeSearchRecord } from '../handlers/storeSearchRecord';
-import { responseToLambda } from '../utils/responseToLambda';
-import { checkSESIdentityVerificationStatus } from '../handlers/checkSESIdentityVerificationStatus';
+import { fetchSecretKey } from '../../handlers/fetchSecretKey';
+import { coinDataMapper } from '../../mappers/coinDataMapper';
+import { generateEmailMessageForPriceRequest } from '../../utils/generateEmailMessageForPriceRequest';
+import { sendEmail } from '../../handlers/sendEmail';
+import { toSearchRecordDTOMapper } from '../../mappers/toSearchRecordDTOMapper';
+import { storeSearchRecord } from '../../handlers/storeSearchRecord';
+import { responseToLambda } from '../../utils/responseToLambda';
+import { checkSESIdentityVerificationStatus } from '../../handlers/checkSESIdentityVerificationStatus';
 
 const baseURL = 'https://api.coingecko.com/api/v3/';
 const secretName = "prod/coingecko";
@@ -20,7 +20,7 @@ const queryParamsSchema = object({
     email: string().email().required()
 });
 
-export const handler: Handler = async (event: APIGatewayEvent) => {
+exports.handler = async (event: APIGatewayEvent) => {
     const apiKeyObject = await fetchSecretKey(secretName);
     if (!apiKeyObject[COIN_GECKO_API_KEY]) {
         throw new Error('Failed to retrieve API key');

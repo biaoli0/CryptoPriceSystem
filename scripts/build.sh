@@ -8,7 +8,7 @@ if [ $# -eq 0 ]; then
 fi
 
 FUNCTION_NAME=$1
-SOURCE_FILE="src/lambda/${FUNCTION_NAME}.ts"
+SOURCE_FILE="src/lambda/${FUNCTION_NAME}/index.ts"
 
 # Check if the source file exists
 if [ ! -f "$SOURCE_FILE" ]; then
@@ -23,7 +23,12 @@ esbuild "${SOURCE_FILE}" \
     --bundle \
     --platform=node \
     --target=node20 \
-    --outfile="dist/${FUNCTION_NAME}.js"
+    --ignore-annotations \
+    --minify \
+    --analyze \
+    --external:aws-sdk \
+    --external:@aws-sdk/* \
+    --outfile="dist/index.js"
 
 if [ $? -ne 0 ]; then
     echo "Build failed"
@@ -33,7 +38,7 @@ fi
 # Package the function
 echo "Packaging function..."
 cd dist
-zip "${FUNCTION_NAME}.zip" "${FUNCTION_NAME}.js"
+zip "${FUNCTION_NAME}.zip" "index.js"
 if [ $? -ne 0 ]; then
     echo "Packaging failed"
     exit 1

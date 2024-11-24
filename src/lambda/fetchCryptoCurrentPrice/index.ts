@@ -14,7 +14,9 @@ import { checkSESIdentityVerificationStatus } from '../../handlers/checkSESIdent
 const baseURL = 'https://api.coingecko.com/api/v3/';
 const secretName = "prod/coingecko";
 const COIN_GECKO_API_KEY = 'COIN_GECKO_API_KEY';
-
+const apiKeyObjectSchema = object({
+    COIN_GECKO_API_KEY: string().required(),
+})
 const queryParamsSchema = object({
     coin: string().required(),
     email: string().email().required()
@@ -22,13 +24,10 @@ const queryParamsSchema = object({
 
 exports.handler = async (event: APIGatewayEvent) => {
     const apiKeyObject = await fetchSecretKey(secretName);
-    if (!apiKeyObject[COIN_GECKO_API_KEY]) {
-        throw new Error('Failed to retrieve API key');
-    }
+    apiKeyObjectSchema.validateSync(apiKeyObject);
     const apiKey = apiKeyObject[COIN_GECKO_API_KEY];
 
     const queryParams = await queryParamsSchema.validate(event.queryStringParameters);
-
     const { coin, email } = queryParams;
     const status = await checkSESIdentityVerificationStatus(email);
     if (status !== 'Success') {

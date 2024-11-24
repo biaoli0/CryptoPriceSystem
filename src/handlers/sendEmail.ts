@@ -1,19 +1,23 @@
 import nodemailer from 'nodemailer';
+import { object, string } from 'yup';
 import { EmailData } from '../models/EmailData';
 import { fetchSecretKey } from './fetchSecretKey';
 
 const secretName = 'prod/email-secrets';
+const emailKeysObjectSchema = object({
+    SMTP_HOST: string().required(),
+    SMTP_USER: string().required(),
+    SMTP_PASSWORD: string().required(),
+    SITE_EMAIL_ADDRESS: string().required(),
+})
 
 export const sendEmail = async (emailData: EmailData, sendTo: string) => {
     try {
-        const { message, subject } = emailData;
         const apiKeysObject = await fetchSecretKey(secretName);
-
+        emailKeysObjectSchema.validateSync(apiKeysObject);
         const { SMTP_HOST, SMTP_USER, SMTP_PASSWORD, SITE_EMAIL_ADDRESS } = apiKeysObject;
-        if (!SMTP_HOST || !SMTP_USER || !SMTP_PASSWORD || !SITE_EMAIL_ADDRESS) {
-            throw new Error('Failed to retrieve Email secrets');
-        }
 
+        const { message, subject } = emailData;
         const transporter = nodemailer.createTransport({
             port: 465,
             host: SMTP_HOST,

@@ -14,7 +14,7 @@ FUNCTION_NAME=$1
 
 # Default values
 DEFAULT_RUNTIME="nodejs20.x"
-DEFAULT_HANDLER="$FUNCTION_NAME.handler"
+DEFAULT_HANDLER="index.handler"
 DEFAULT_ROLE="arn:aws:iam::620833996780:role/lambda-execution-role"
 
 

@@ -29,7 +29,7 @@ const coinDataParams = object({
 
 export const coinDataMapper = (priceData: unknown, coinData: unknown): CoinCurrentPriceData => {
     const coin = coinDataParams.validateSync(coinData);
-    const price = priceDataParams.validateSync(priceData) as CurrencySchema;
+    const price: CurrencySchema = priceDataParams.validateSync(priceData);
     if (!(coin.id in price)) {
         throw new Error(`Price data ${JSON.stringify(priceData)} do not contain ${coin.id}`);
     }

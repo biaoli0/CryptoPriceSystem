@@ -16,12 +16,16 @@ This microservice uses technologies that have stood the test of time.
 flowchart TB
     subgraph "Microservice"
         A[API Gateway] --GET: /current-price/--> B[Lambda - Price Fetcher]
-        B --> C[CoinGecko API]
-        B --> D[(DynamoDB - Search History)]
-        B --> F[AWS SES]
+        B --[get CoinGecko API and email server secrets]--> M[Secret Manager]
+        B --[fetch price]--> C[CoinGecko API]
+        B --[store search history]--> D[(DynamoDB - Search History)]
+        B --[send result to email]--> F[AWS SES]
+
         A[API Gateway] --GET: /search-history/--> H[Lambda - History Retriever]
-        H --> D
-        A[API Gateway] --GET: /subscribe/--> L[Lambda - Email Subscribe] --> F[AWS SES]
+        H --[fetch search history]--> D
+
+        A[API Gateway] --GET: /subscribe/--> L[Lambda - Email Subscribe]
+        L --[user email subscription]--> M[Secret Manager]
     end
 
     subgraph "CI/CD Pipeline"

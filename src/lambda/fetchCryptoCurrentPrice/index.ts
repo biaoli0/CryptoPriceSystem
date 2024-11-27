@@ -9,7 +9,6 @@ import { sendEmail } from '../../handlers/sendEmail';
 import { toSearchRecordDTOMapper } from '../../mappers/toSearchRecordDTOMapper';
 import { storeSearchRecord } from '../../handlers/storeSearchRecord';
 import { responseToLambda } from '../../utils/responseToLambda';
-import { checkSESIdentityVerificationStatus } from '../../handlers/checkSESIdentityVerificationStatus';
 
 const baseURL = 'https://api.coingecko.com/api/v3/';
 const secretName = "prod/coingecko";
@@ -29,11 +28,6 @@ exports.handler = async (event: APIGatewayEvent) => {
 
     const queryParams = await queryParamsSchema.validate(event.queryStringParameters);
     const { coin, email } = queryParams;
-    const status = await checkSESIdentityVerificationStatus(email);
-    if (status !== 'Success') {
-        return responseToLambda(JSON.stringify({ message: `Email verification is not successful, status: ${status}` }));
-    }
-
     const api = new APIClient({
         baseURL, headers: { 'x-cg-demo-api-key': apiKey }
     });

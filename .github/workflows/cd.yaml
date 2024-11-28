@@ -29,6 +29,10 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: yarn
+      - run: yarn --version
+      - run: node -v
+      - run: npm -v
       - run: yarn install
       - run: yarn build-and-deploy:fetchCryptoCurrentPrice
       - run: yarn build-and-deploy:fetchSearchHistory
+      - run: yarn build-and-deploy:addEmailToSESIdentities
